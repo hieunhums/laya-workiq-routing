@@ -31,7 +31,7 @@ pip install "laya==0.4.0"
 python scripts/finetune.py convaiinnovations/laya laya-routing 3
 ```
 
-On one A100 this took 17 minutes. It also runs on Apple Silicon (MPS), but much more slowly.
+On one A100 this took 17 minutes. I ran it on an Azure Container Apps serverless GPU: one container trains, then serves the checkpoint, with no VM or driver setup and billing per second. It also runs on Apple Silicon (MPS), but much more slowly.
 
 ## Results
 
@@ -64,3 +64,5 @@ Speed: about 33 ms per routing request on an A100 and about 150 ms on an M-serie
 API_KEY=change-me python scripts/serve.py laya-routing
 curl -X POST localhost:8000/v1/systemone -H "Authorization: Bearer change-me" -d '{"state": {...}, "questions": {...}}'
 ```
+
+The same script runs in a container. On Azure Container Apps with a GPU workload profile, the app gets an HTTPS endpoint, and swapping in another checkpoint is a new revision.
